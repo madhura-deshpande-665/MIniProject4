@@ -1,0 +1,36 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_multiplier_male`(
+  IN dob DATE,
+  IN tenure INT,
+  IN gender VARCHAR(15),
+  OUT multiplier_value DECIMAL(6,3)
+)
+BEGIN
+    DECLARE calculated_age INT;
+    SET calculated_age = TIMESTAMPDIFF(YEAR, dob, CURDATE());
+    
+    IF gender = "Male" THEN
+    
+    SELECT 
+        CASE 
+            WHEN tenure = 2 THEN tenure_2
+            WHEN tenure = 3 THEN tenure_3
+            WHEN tenure = 4 THEN tenure_4
+        END
+    INTO multiplier_value
+    FROM male
+    WHERE age = calculated_age;
+ELSE  
+
+  SELECT 
+        CASE 
+            WHEN tenure = 2 THEN tenure_2
+            WHEN tenure = 3 THEN tenure_3
+            WHEN tenure = 4 THEN tenure_4
+        END
+    INTO multiplier_value
+    FROM female
+    WHERE age = calculated_age;
+
+END IF;
+
+END
